@@ -1,0 +1,15 @@
+services:
+  mongo-db:
+    image: mongo:latest
+    container_name: mongo-db-recipebook
+    ports:
+      - "27017:27017"
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=adminRecipeBook
+      - MONGO_INITDB_ROOT_PASSWORD=adminRecipeBook@1
+    volumes:
+      - mongo-db-recipebook:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongo-db-recipebook:
