@@ -6,7 +6,7 @@ services:
       - "27017:27017"
     environment:
       - MONGO_INITDB_ROOT_USERNAME=adminRecipeBook
-      - MONGO_INITDB_ROOT_PASSWORD=adminRecipeBook@1
+      - MONGO_INITDB_ROOT_PASSWORD=adminRecipeBook1
     volumes:
       - mongo-db-recipebook:/data/db
     restart: unless-stopped
