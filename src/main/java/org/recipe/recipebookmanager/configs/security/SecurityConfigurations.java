@@ -1,5 +1,6 @@
 package org.recipe.recipebookmanager.configs.security;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,10 +12,14 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfigurations {
+
+    @Autowired
+    SecurityFilter securityFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
@@ -25,7 +30,9 @@ public class SecurityConfigurations {
                     authorize.requestMatchers(HttpMethod.POST, "/auth/login").permitAll(); //Permite que qualquer um faça requisição de registro
                     authorize.requestMatchers(HttpMethod.POST, "/recipe").hasRole("ADMIN"); //Para o post na rota fornecida temos a role de admin
                     authorize.anyRequest().authenticated();//para as outras rotas, temos que nós autenticar
-                }).build();
+                })
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     @Bean
